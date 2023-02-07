@@ -1,0 +1,69 @@
+﻿@page
+@using Microsoft.AspNetCore.Identity
+@model IndexModel
+@using WebApplication3.Model
+@inject IHttpContextAccessor contxt;
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+@using Microsoft.AspNetCore.DataProtection;
+
+
+@{
+    ViewData["Title"] = "Home page";
+    var user = await UserManager.GetUserAsync(User);
+    var dataProtectionProvider = DataProtectionProvider.Create("EncryptData");
+    var protector = dataProtectionProvider.CreateProtector("MySecretKey");
+    var i = protector.Unprotect(user.CreditCard);
+
+
+    contxt.HttpContext.Session.SetString("1", user.FullName);
+    contxt.HttpContext.Session.SetString("10", user.CreditCard);
+
+    contxt.HttpContext.Session.SetString("2", i);
+    contxt.HttpContext.Session.SetString("3", user.Gender);
+    contxt.HttpContext.Session.SetString("4", user.PhoneNumber.ToString());
+    contxt.HttpContext.Session.SetString("5", user.DeliveryAddress);
+    contxt.HttpContext.Session.SetString("6", user.Email);
+    contxt.HttpContext.Session.SetString("7", user.PasswordHash);
+    contxt.HttpContext.Session.SetString("8", user.PhotoPath);
+    contxt.HttpContext.Session.SetString("9", user.AboutMe);
+
+
+
+
+
+
+}
+
+<div class="">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <div class="">
+        <ul>
+            <li> <span style="font-weight:bold">Full Name:</span> @contxt.HttpContext.Session.GetString("1")</li>
+            <li> <span style="font-weight:bold">Encrypted Credit Card:</span> @contxt.HttpContext.Session.GetString("10")</li>
+
+            <li> <span style="font-weight:bold">Decrypted Credit Card:</span> @contxt.HttpContext.Session.GetString("2")</li>
+            <li> <span style="font-weight:bold">Gender:</span> @contxt.HttpContext.Session.GetString("3")</li>
+            <li> <span style="font-weight:bold">Phone Number:</span> @contxt.HttpContext.Session.GetString("4")</li>
+
+            <li> <span style="font-weight:bold">Delivery Address:</span> @contxt.HttpContext.Session.GetString("5")</li>
+
+            <li> <span style="font-weight:bold">Email:</span> @contxt.HttpContext.Session.GetString("6")</li>
+
+            <li> <span style="font-weight:bold">Hashed Password:</span> @contxt.HttpContext.Session.GetString("7")</li>
+
+            <li>
+                <span style="font-weight:bold">Photo:</span>
+                <img id="imgPreview" class="sqaure"
+                     style="height:300px;width:300px;object-fit:cover"
+                     src="@contxt.HttpContext.Session.GetString("8")" />
+            </li>
+            <li> <span style="font-weight:bold">AboutMe:</span> @contxt.HttpContext.Session.GetString("9")</li>
+
+
+
+        </ul>
+    </div>
+    
+</div>

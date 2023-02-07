@@ -1,0 +1,32 @@
+﻿@page
+@model WebApplication3.Pages.ForgetPwModel
+@{
+}
+<div class="container mt-5">
+
+	<div class="row justify-content-center align-items-center">
+
+		<div class="col-sm-12 col-md-12 col-lg-4">
+			<h1 class="mb-3">Forget Password </h1>
+			<p>Input your email and receive a verification code to change your password</p>
+
+			<form method="post">
+				<div asp-validation-summary="All" class="text-danger"></div>
+
+				
+				<div class="mb-3">
+					<label class="form-label" >Email Address</label>
+					<input type="Text" name="email" class="form-control" id="email" />
+					@if (ViewData["isEmailConfirmed"] != null)
+					{
+					<div class="text-danger text-center">@ViewData["isEmailConfirmed"]</div>
+					}
+				</div>
+
+				<div class="mb-3">
+					<button type="submit" class="btn btn-primary">Send Code</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
